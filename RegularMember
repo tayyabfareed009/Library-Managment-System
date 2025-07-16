@@ -1,0 +1,12 @@
+public class RegularMember {
+    Member member;
+
+    public RegularMember(Member member) {
+        this.member = member;
+    }
+
+    public void displayInfo() {
+        System.out.println("This Member is Regular");
+        member.displayInfo();
+    }
+}

@@ -1,0 +1,72 @@
+import java.util.ArrayList;
+
+public class Library {
+    private ArrayList<Book> books;
+    private ArrayList<Member> members;
+
+    public Library() {
+        books = new ArrayList<>();
+        members = new ArrayList<>();
+    }
+
+    public void addBook(Book bok) {
+        books.add(bok);
+    }
+
+    public void addMember(Member member) {
+        members.add(member);
+    }
+
+    public Member authenticateMember(int id) {
+        for (Member member : members) {
+            if (member.getId() == id) {
+                return member;
+            }
+        }
+        return null;
+    }
+
+    public void borrowBook(Member member, String title) {
+        Book book = searchBookByTitle(title);
+        if (book != null && book.getQuantity() > 0) {
+            book.borrow();
+            System.out.println("Book borrowed successfully.");
+        } else {
+            System.out.println("Book not available.");
+        }
+    }
+
+    public void returnBook(Member member, String title) {
+        Book book = searchBookByTitle(title);
+        if (book != null) {
+            book.returnBook();
+            System.out.println("Book returned successfully.");
+        } else {
+            System.out.println("Book not found.");
+        }
+    }
+
+    public void displayBooks() {
+        for (Book n : books) {
+            System.out.println(n);
+        }
+    }
+
+    public void displayMembers() {
+        for (Member member : members) {
+            member.displayInfo();
+        }
+    }
+
+    private Book searchBookByTitle(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+                return book;
+            }
+        }
+        return null;
+    }
+    public void removeBook(int i){
+     books.remove(i);
+     }
+}

@@ -1,0 +1,136 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Library library = new Library();
+
+        // Adding initial books to the library
+        library.addBook(new Book("Violet Evergarden", "Talha", 78));
+        library.addBook(new Book("To Kill a Mockingbird", "Harper Lee", 7987));
+        library.addBook(new Book("Dune", "Tayyab", 7998787));
+        library.addBook(new Book("Violet Evergarden", "Talha", 78));
+        library.addBook(new Book("Dune", "Yalkga", 79687));
+
+        // Adding initial members to the library
+        Member member1 = new Member("Tayyab", 8831);
+        Member member2 = new Member("Talha", 8460);
+        library.addMember(member1);
+        library.addMember(member2);
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            // Display options to the user
+            System.out.println("\nChoose an option: ");
+            System.out.println("1. Borrow Book");
+            System.out.println("2. Return Book");
+            System.out.println("3. Add New Book");
+            System.out.println("4. Add New Member");
+            System.out.println("5. Display All Books");
+            System.out.println("6. Display All Members");
+            System.out.println("7. Remove Book"); 
+           
+            System.out.println("0. Exit");
+
+            int option = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+
+            if (option == 0) {
+                break;
+            }
+
+            switch (option) {
+                case 1:
+                    System.out.println("Enter Member ID:");
+                    // for authenticator 
+                    int memberId = scanner.nextInt();
+                    scanner.nextLine();  // Consume newline
+                    Member member = library.authenticateMember(memberId);
+                    if (member == null) {
+                        System.out.println("Invalid Member ID.");
+                    } else {
+                        System.out.println("Enter book title to borrow:");
+                        String borrowTitle = scanner.nextLine();
+                        library.borrowBook(member, borrowTitle);
+                    }
+                 
+                    
+                          break;
+
+                case 2:
+                    System.out.println("Enter Member ID:");
+                    memberId = scanner.nextInt();
+                    scanner.nextLine();  // Consume newline
+                    member = library.authenticateMember(memberId);
+                    if (member == null) {
+                        System.out.println("Invalid Member ID.");
+                    } else {
+                        System.out.println("Enter book title to return:");
+                        String returnTitle = scanner.nextLine();
+                        library.returnBook(member, returnTitle);
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Enter new book title:");
+                    String title = scanner.nextLine();
+                    System.out.println("Enter new book author:");
+                    String bookAuthor = scanner.nextLine();
+                    System.out.println("Enter new book quantity:");
+                    int quantity = scanner.nextInt();
+                    scanner.nextLine();  // Consume newline
+                    library.addBook(new Book(title, bookAuthor, quantity));
+                    System.out.println("Book added successfully.");
+                    break;
+
+                case 4:
+                    System.out.println("Enter new member name:");
+                    String name = scanner.nextLine();
+                    System.out.println("Enter new member ID:");
+                    int id = scanner.nextInt();
+                    scanner.nextLine();  // Consume newline
+
+                    System.out.println("Enter member type (1 for Regular, 2 for Premium):");
+                    int memberType = scanner.nextInt();
+                    scanner.nextLine();  // Consume newline
+
+                    Member newMember = new Member(name, id);
+                    library.addMember(newMember);
+
+                    if (memberType == 1) {
+                        RegularMember newRegularMember = new RegularMember(newMember);
+                        System.out.println("Regular member added successfully.");
+                    } else if (memberType == 2) {
+                        PremiumMember newPremiumMember = new PremiumMember(newMember);
+                        System.out.println("Premium member added successfully.");
+                    } else {
+                        System.out.println("Invalid member type.");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("All Books in the Library:");
+                    library.displayBooks();
+                    break;
+
+                case 6:
+                    System.out.println("All Members in the Library:");
+                    library.displayMembers();
+                    break;
+                    case 7:
+                    System.out.println("Book no to remove");
+                    int i=scanner.nextInt();
+                    library.removeBook(i);
+                    break;
+
+             
+                default:
+                    System.out.println("Invalid option.");
+                    break;
+            }
+        }
+
+        scanner.close();
+        System.out.println("Program terminated.");
+    }
+}
